@@ -1,5 +1,7 @@
 package com.KoreaIT.java.AM;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -9,8 +11,10 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 0;
+		List<Article> articles = new ArrayList<>();
 
 		while (true) {
+
 			System.out.print("명령어 > ");
 			String command = sc.nextLine();
 
@@ -24,7 +28,12 @@ public class Main {
 			}
 
 			if (command.equals("article list")) {
-				System.out.println("게시글이 없습니다");
+				if (articles.size() == 0) {
+					System.out.println("게시글이 없습니다");
+				} else {
+					System.out.println("있던데???");
+				}
+
 			} else if (command.equals("article write")) {
 				int id = lastArticleId + 1;
 				System.out.print("제목 : ");
@@ -32,7 +41,8 @@ public class Main {
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 
-//				System.out.println(title + " / " + body);
+				Article article = new Article(id, title, body);
+				articles.add(article);
 
 				System.out.printf("%d번글이 생성되었습니다\n", id);
 				lastArticleId++;
@@ -45,5 +55,17 @@ public class Main {
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
+	}
+}
+
+class Article {
+	int id;
+	String title;
+	String body;
+
+	Article(int id, String title, String body) {
+		this.id = id;
+		this.title = title;
+		this.body = body;
 	}
 }
