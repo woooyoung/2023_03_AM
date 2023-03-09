@@ -41,11 +41,12 @@ public class Main {
 			} else if (command.equals("article write")) {
 				int id = lastArticleId + 1;
 				System.out.print("제목 : ");
+				String regDate = Util.getNowDateTimeStr();
 				String title = sc.nextLine();
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, regDate, title, body);
 				articles.add(article);
 
 				System.out.printf("%d번글이 생성되었습니다\n", id);
@@ -77,7 +78,7 @@ public class Main {
 					continue;
 				}
 				System.out.println("번호 : " + foundArticle.id);
-				System.out.println("날짜 : " + "2023-12-12 12:12:12");
+				System.out.println("날짜 : " + foundArticle.regDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 
@@ -94,11 +95,13 @@ public class Main {
 
 class Article {
 	int id;
+	String regDate;
 	String title;
 	String body;
 
-	Article(int id, String title, String body) {
+	Article(int id, String regDate, String title, String body) {
 		this.id = id;
+		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
 	}
