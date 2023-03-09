@@ -51,27 +51,35 @@ public class Main {
 				System.out.printf("%d번글이 생성되었습니다\n", id);
 				lastArticleId++;
 
-			} else if (command.startsWith("article detail ")) {
+			} else if (command.startsWith("article detail")) {
 
 				String[] cmdDiv = command.split(" ");
 
+				if (cmdDiv.length < 3) {
+					System.out.println("명령어를 확인해주세요");
+					continue;
+				}
+
 				int id = Integer.parseInt(cmdDiv[2]);
 
-				boolean found = false;
+				Article foundArticle = null;
 
 				for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 					if (article.id == id) {
-						found = true;
+						foundArticle = article;
 						break;
 					}
 				}
 
-				if (found == false) {
+				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
-				} else {
-					System.out.printf("%d번 게시물 있던데?\n", id);
+					continue;
 				}
+				System.out.println("번호 : " + foundArticle.id);
+				System.out.println("날짜 : " + "2023-12-12 12:12:12");
+				System.out.println("제목 : " + foundArticle.title);
+				System.out.println("내용 : " + foundArticle.body);
 
 			} else {
 				System.out.println("존재하지 않는 명령어입니다");
