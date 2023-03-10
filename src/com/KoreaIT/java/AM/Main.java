@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 	static List<Article> articles = new ArrayList<>();
+	static List<Member> members = new ArrayList<>();
 
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
@@ -15,6 +16,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 3;
+		int lastMemberId = 0;
 
 		while (true) {
 
@@ -30,7 +32,50 @@ public class Main {
 				break;
 			}
 
-			if (command.startsWith("article list")) {
+			if (command.equals("member join")) {
+				int id = lastMemberId + 1;
+				String regDate = Util.getNowDateTimeStr();
+				String loginId = null;
+				while (true) {
+					System.out.print("로그인 아이디 : ");
+					loginId = sc.nextLine();
+
+					if (isJoinableLoginId(loginId) == false) {
+						System.out.println("이미 사용중인 아이디입니다");
+						continue;
+					}
+
+					break;
+
+				}
+				System.out.print("로그인 비밀번호 : ");
+				String loginPw = sc.nextLine();
+				System.out.print("로그인 비밀번호 확인: ");
+				String loginPwConfirm = sc.nextLine();
+				System.out.print("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, regDate, regDate, loginId, loginPw, name);
+				members.add(member);
+
+				System.out.printf("%d번 회원이 가입되었습니다\n", id);
+				lastMemberId++;
+
+			} else if (command.equals("article write")) {
+				int id = lastArticleId + 1;
+				System.out.print("제목 : ");
+				String regDate = Util.getNowDateTimeStr();
+				String title = sc.nextLine();
+				System.out.print("내용 : ");
+				String body = sc.nextLine();
+
+				Article article = new Article(id, regDate, regDate, title, body);
+				articles.add(article);
+
+				System.out.printf("%d번글이 생성되었습니다\n", id);
+				lastArticleId++;
+
+			} else if (command.startsWith("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 					continue;
@@ -60,20 +105,6 @@ public class Main {
 					Article article = forPrintArticles.get(i);
 					System.out.printf("  %d   //   %s   //   %d  \n", article.id, article.title, article.hit);
 				}
-
-			} else if (command.equals("article write")) {
-				int id = lastArticleId + 1;
-				System.out.print("제목 : ");
-				String regDate = Util.getNowDateTimeStr();
-				String title = sc.nextLine();
-				System.out.print("내용 : ");
-				String body = sc.nextLine();
-
-				Article article = new Article(id, regDate, regDate, title, body);
-				articles.add(article);
-
-				System.out.printf("%d번글이 생성되었습니다\n", id);
-				lastArticleId++;
 
 			} else if (command.startsWith("article detail")) {
 
@@ -162,6 +193,27 @@ public class Main {
 		sc.close();
 	}
 
+	private static boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
 	private static int getArticleIndexById(int id) {
 		int i = 0;
 		for (Article article : articles) {
@@ -188,6 +240,24 @@ public class Main {
 		articles.add(new Article(1, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목1", "제목1", 11));
 		articles.add(new Article(2, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목2", "제목2", 22));
 		articles.add(new Article(3, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목3", "제목3", 33));
+	}
+}
+
+class Member {
+	int id;
+	String regDate;
+	String updateDate;
+	String loginId;
+	String loginPw;
+	String name;
+
+	Member(int id, String regDate, String updateDate, String loginId, String loginPw, String name) {
+		this.id = id;
+		this.regDate = regDate;
+		this.updateDate = updateDate;
+		this.loginId = loginId;
+		this.loginPw = loginPw;
+		this.name = name;
 	}
 }
 
