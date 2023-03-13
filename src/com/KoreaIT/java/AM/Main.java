@@ -19,7 +19,6 @@ public class Main {
 		int lastMemberId = 0;
 
 		while (true) {
-
 			System.out.print("명령어 > ");
 			String command = sc.nextLine().trim();
 
@@ -44,14 +43,25 @@ public class Main {
 						System.out.println("이미 사용중인 아이디입니다");
 						continue;
 					}
-
 					break;
-
 				}
-				System.out.print("로그인 비밀번호 : ");
-				String loginPw = sc.nextLine();
-				System.out.print("로그인 비밀번호 확인: ");
-				String loginPwConfirm = sc.nextLine();
+
+				String loginPw = null;
+				String loginPwConfirm = null;
+
+				while (true) {
+					System.out.print("로그인 비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.print("로그인 비밀번호 확인: ");
+					loginPwConfirm = sc.nextLine();
+
+					if (loginPw.equals(loginPwConfirm) == false) {
+						System.out.println("비밀번호를 확인해주세요");
+						continue;
+					}
+					break;
+				}
+
 				System.out.print("이름 : ");
 				String name = sc.nextLine();
 
@@ -267,6 +277,7 @@ class Article {
 	String updateDate;
 	String title;
 	String body;
+
 	int hit;
 
 	Article(int id, String regDate, String updateDate, String title, String body) {
