@@ -13,6 +13,10 @@ public class MemberController extends Controller {
 	private String command;
 	private String actionMethodName;
 
+	private Member loginedMember;
+
+	int lastMemberId = 0;
+
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
@@ -26,13 +30,38 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+		case "login":
+			doLogin();
+			break;
 		default:
 			System.out.println("해당 기능은 사용할 수 없습니다");
 			break;
 		}
 	}
 
-	int lastMemberId = 0;
+	private void doLogin() {
+		System.out.print("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.print("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+
+		// 얘 있나? (사용자가 입력한 아이디랑 일치하는 회원이 우리한테 있나?)
+
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			System.out.println("일치하는 회원이 없습니다");
+			return;
+		}
+
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호가 일치하지 않습니다");
+			return;
+		}
+
+		loginedMember = member;
+		System.out.printf("로그인 성공! %s님 반갑습니다\n", loginedMember.name);
+	}
 
 	private void doJoin() {
 		int id = lastMemberId + 1;
@@ -73,6 +102,16 @@ public class MemberController extends Controller {
 
 		System.out.printf("%d번 회원이 가입되었습니다\n", id);
 		lastMemberId++;
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
 	}
 
 	private boolean isJoinableLoginId(String loginId) {
