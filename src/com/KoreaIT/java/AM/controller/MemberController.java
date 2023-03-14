@@ -1,5 +1,6 @@
 package com.KoreaIT.java.AM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,8 +13,8 @@ public class MemberController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
 
@@ -25,12 +26,15 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+		default:
+			System.out.println("해당 기능은 사용할 수 없습니다");
+			break;
 		}
 	}
 
 	int lastMemberId = 0;
 
-	public void doJoin() {
+	private void doJoin() {
 		int id = lastMemberId + 1;
 		String regDate = Util.getNowDateTimeStr();
 		String loginId = null;

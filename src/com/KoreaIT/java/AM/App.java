@@ -11,12 +11,8 @@ import com.KoreaIT.java.AM.dto.Article;
 import com.KoreaIT.java.AM.dto.Member;
 
 public class App {
-	List<Article> articles;
-	List<Member> members;
 
 	public App() {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
 	}
 
 	public void start() {
@@ -24,8 +20,8 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
 
 		Controller controller;
 
@@ -44,7 +40,7 @@ public class App {
 				break;
 			}
 
-			String[] commandDiv = command.split(" "); // article delete ! / member join
+			String[] commandDiv = command.split(" ");
 
 			String controllerName = commandDiv[0];
 
@@ -52,10 +48,8 @@ public class App {
 				System.out.println("명령어를 확인해주세요");
 				continue;
 			}
-			
+
 			String actionMethodName = commandDiv[1];
-			
-//			System.out.println(controllerName + " // " + actionMethodName);
 
 			controller = null;
 
