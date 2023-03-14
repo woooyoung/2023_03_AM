@@ -14,8 +14,6 @@ public class MemberController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	private Member loginedMember = null;
-
 	int lastMemberId = 0;
 
 	public MemberController(Scanner sc) {
@@ -78,8 +76,6 @@ public class MemberController extends Controller {
 		System.out.print("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
 
-		// 얘 있나? (사용자가 입력한 아이디랑 일치하는 회원이 우리한테 있나?)
-
 		Member member = getMemberByLoginId(loginId);
 
 		if (member == null) {
@@ -97,6 +93,10 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
+		if (isLogined()) {
+			System.out.println("이미 로그인 상태입니다");
+			return;
+		}
 		int id = lastMemberId + 1;
 		String regDate = Util.getNowDateTimeStr();
 		String loginId = null;
@@ -135,10 +135,6 @@ public class MemberController extends Controller {
 
 		System.out.printf("%d번 회원이 가입되었습니다\n", id);
 		lastMemberId++;
-	}
-
-	private boolean isLogined() {
-		return loginedMember != null;
 	}
 
 	private Member getMemberByLoginId(String loginId) {
