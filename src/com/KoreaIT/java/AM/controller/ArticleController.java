@@ -39,9 +39,17 @@ public class ArticleController extends Controller {
 			showDetail();
 			break;
 		case "modify":
+			if (isLogined() == false) {
+				System.out.println("로그인 상태가 아닙니다");
+				break;
+			}
 			doModify();
 			break;
 		case "delete":
+			if (isLogined() == false) {
+				System.out.println("로그인 상태가 아닙니다");
+				break;
+			}
 			doDelete();
 			break;
 		default:
@@ -58,7 +66,7 @@ public class ArticleController extends Controller {
 		System.out.print("내용 : ");
 		String body = sc.nextLine();
 
-		Article article = new Article(id, regDate, regDate, title, body);
+		Article article = new Article(id, regDate, regDate, loginedMember.id, title, body);
 		articles.add(article);
 
 		System.out.printf("%d번글이 생성되었습니다\n", id);
@@ -90,10 +98,11 @@ public class ArticleController extends Controller {
 			}
 		}
 
-		System.out.println(" 번호  //  제목    //  조회  ");
+		System.out.println(" 번호  //  제목    //  조회      //  작성자");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
-			System.out.printf("  %d   //   %s   //   %d  \n", article.id, article.title, article.hit);
+			System.out.printf("  %d   //   %s   //   %d     //   %d\n", article.id, article.title, article.hit,
+					article.memberId);
 		}
 
 	}
@@ -120,6 +129,7 @@ public class ArticleController extends Controller {
 		System.out.println("번호 : " + foundArticle.id);
 		System.out.println("작성날짜 : " + foundArticle.regDate);
 		System.out.println("수정날짜 : " + foundArticle.updateDate);
+		System.out.println("작성자 : " + foundArticle.memberId);
 		System.out.println("제목 : " + foundArticle.title);
 		System.out.println("내용 : " + foundArticle.body);
 		System.out.println("조회 : " + foundArticle.hit);
@@ -199,9 +209,9 @@ public class ArticleController extends Controller {
 
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시글 데이터를 생성합니다");
-		articles.add(new Article(1, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목1", "제목1", 11));
-		articles.add(new Article(2, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목2", "제목2", 22));
-		articles.add(new Article(3, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), "제목3", "제목3", 33));
+		articles.add(new Article(1, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), 3, "제목1", "제목1", 11));
+		articles.add(new Article(2, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), 2, "제목2", "제목2", 22));
+		articles.add(new Article(3, Util.getNowDateTimeStr(), Util.getNowDateTimeStr(), 2, "제목3", "제목3", 33));
 	}
 
 }
