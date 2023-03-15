@@ -55,12 +55,33 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-		System.out.print("로그인 아이디 : ");
-		String loginId = sc.nextLine();
-		System.out.print("로그인 비밀번호 : ");
-		String loginPw = sc.nextLine();
 
-		Member member = getMemberByLoginId(loginId);
+		Member member = null;
+		String loginId = null;
+		String loginPw = null;
+
+		while (true) {
+			System.out.print("로그인 아이디 : ");
+			loginId = sc.nextLine();
+
+			if (loginId.length() == 0) {
+				System.out.println("아이디를 입력해주세요");
+				continue;
+			}
+			break;
+		}
+		while (true) {
+			System.out.print("로그인 비밀번호 : ");
+			loginPw = sc.nextLine();
+
+			if (loginPw.length() == 0) {
+				System.out.println("비밀번호를 입력해주세요");
+				continue;
+			}
+			break;
+		}
+
+		member = getMemberByLoginId(loginId);
 
 		if (member == null) {
 			System.out.println("일치하는 회원이 없습니다");
