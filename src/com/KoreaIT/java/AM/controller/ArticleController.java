@@ -87,14 +87,21 @@ public class ArticleController extends Controller {
 				return;
 			}
 		}
-		
-		String writerName = null;
-		
-		List<Member> members = Container.memberDao.members;
 
 		System.out.println(" 번호  //  제목    //  조회      //  작성자");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+			String writerName = null;
+
+			List<Member> members = Container.memberDao.members;
 			Article article = forPrintArticles.get(i);
+
+			for (Member member : members) {
+				if (article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+
 			System.out.printf("  %d   //   %s   //   %d     //   %s\n", article.id, article.title, article.hit,
 					writerName);
 		}
