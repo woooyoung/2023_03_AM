@@ -7,17 +7,19 @@ import java.util.Scanner;
 import com.KoreaIT.java.AM.container.Container;
 import com.KoreaIT.java.AM.dto.Article;
 import com.KoreaIT.java.AM.dto.Member;
+import com.KoreaIT.java.AM.service.ArticleService;
 import com.KoreaIT.java.AM.util.Util;
 
 public class ArticleController extends Controller {
-	List<Article> articles;
+	private List<Article> articles;
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
+	private ArticleService articleService;
 
 	public ArticleController(Scanner sc) {
-		this.articles = Container.articleDao.articles;
 		this.sc = sc;
+		articleService = Container.articleService;
 	}
 
 	public void doAction(String actionMethodName, String command) {
@@ -61,28 +63,14 @@ public class ArticleController extends Controller {
 	}
 
 	private void showList() {
-		if (articles.size() == 0) {
-			System.out.println("게시글이 없습니다");
-			return;
-		}
 
 		String searchKeyword = command.substring("article list".length()).trim();
 
-		List<Article> forPrintArticles = articles;
+		List<Article> forPrintArticles = articleService.getForPrintArticles(searchKeyword);
 
-		if (searchKeyword.length() > 0) {
-			System.out.println("searchKeyword : " + searchKeyword);
-			forPrintArticles = new ArrayList<>();
-
-			for (Article article : articles) {
-				if (article.title.contains(searchKeyword)) {
-					forPrintArticles.add(article);
-				}
-			}
-			if (forPrintArticles.size() == 0) {
-				System.out.println("검색 결과가 없습니다");
-				return;
-			}
+		if (forPrintArticles.size() == 0) {
+			System.out.println("게시글이 없습니다");
+			return;
 		}
 
 		System.out.println(" 번호  //  제목    //  조회      //  작성자");

@@ -55,7 +55,6 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-
 		Member member = null;
 		String loginId = null;
 		String loginPw = null;
