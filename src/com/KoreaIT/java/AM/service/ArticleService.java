@@ -15,9 +15,13 @@ public class ArticleService {
 
 	public List<Article> getForPrintArticles(String searchKeyword) {
 
-		List<Article> articles = Container.articleDao.getArticles(searchKeyword);
+		List<Article> articles = articleDao.getArticles(searchKeyword);
 
 		return articles;
+	}
+	
+	public List<Article> getForPrintArticles() {
+		return articleDao.getArticles(null);
 	}
 
 	public int setNewId() {
@@ -38,5 +42,7 @@ public class ArticleService {
 	public void remove(Article foundArticle) {
 		articleDao.remove(foundArticle);
 	}
+
+	
 
 }

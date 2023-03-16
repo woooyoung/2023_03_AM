@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.KoreaIT.java.AM.controller.ArticleController;
 import com.KoreaIT.java.AM.controller.Controller;
+import com.KoreaIT.java.AM.controller.ExportController;
 import com.KoreaIT.java.AM.controller.MemberController;
 
 public class App {
@@ -14,6 +15,7 @@ public class App {
 
 		MemberController memberController = new MemberController(sc);
 		ArticleController articleController = new ArticleController(sc);
+		ExportController exportController = new ExportController(sc);
 
 		Controller controller;
 
@@ -52,8 +54,10 @@ public class App {
 				controller = articleController;
 			} else if (controllerName.equals("member")) {
 				controller = memberController;
+			} else if (controllerName.equals("export")) {
+				controller = exportController;
 			} else {
-				System.out.println("존재하지 않는 명령어입니다");
+				System.out.println("존재하지 않는 명령어입니다1");
 				continue;
 			}
 
